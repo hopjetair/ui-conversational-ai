@@ -1,0 +1,128 @@
+.chatbot_Log {
+    width: 100%;
+    padding: 0 12px 12px 12px;
+    overflow: auto;
+    margin-bottom: 60px;
+
+    .chatbot-Loading {
+        margin: 8px;
+
+        &:first-child {
+            margin-top: 12px;
+        }
+    }
+}
+
+.chatbot_Log_responseGroup {
+    padding-top: 4px;
+    clear: both;
+    animation-name: fadein;
+    animation-duration: 1.4s;
+
+    &:first-child {
+        padding-top: 12px;
+    }
+    > ul {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.chatbot_Log_response {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 4px;
+    position: relative;
+
+    .chatbot-Bubble {
+        max-width: calc(100% - 68px); 
+    }
+
+    &--self {
+        justify-content: flex-end;
+
+        .chatbot-Bubble {
+            background: #4ca1ec;
+            color: #ffffff;
+        }
+    }
+
+    .chatbot_Log-feedback {
+        width: 68px;
+        margin-top: auto;
+    }
+
+
+    &--fullWidth {
+        display: block;
+        .chatbot-Bubble {
+            width: 100%;
+            max-width: inherit;
+        }
+    }
+
+    .error_text {
+        background: #ffdee3;
+        color: #6c0413;
+    }
+}
+
+.chatbot_Log-self {
+    text-align: left;
+    margin: 12px 0;
+    padding-left: 40px;
+}
+
+.chatbot_Log-feedback {
+    .uikit-button:hover {
+        border: 1px solid #1bb1f2;
+        background: none;
+    }
+}
+
+.chatbot_Log-toolbar {
+    color: #4ca1ec;
+    font-size: 11px;
+    line-height: 18px;
+    display: inline-block;
+    animation-name: fadein;
+    animation-duration: 1.4s;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.entityList-container {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+}
+.chatbot_Input_text {
+    flex: 1;
+    line-height: 25px;
+    font-size: 13px;
+    color: #000;
+    display: block;
+    padding: 0 12px;
+    box-shadow: none;
+    border-radius: 10px;
+    resize: none;
+}
+
+.chatbot_Log_questinon {
+    display: flex;
+    padding-top: 4px;
+    position: relative;
+    justify-content: flex-end;  
+    margin-right:50px;
+}
+.chatbot_Input_link {
+    color: #0067E6;
+    font-weight: bold;
+    font-size: 14px;
+}
