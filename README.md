@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-###  Step 1: run the command `npm install`
+###  Step 1: clone the repo and run the command `npm install`
 This will install the dependencies.
 ### Step 2: run the command `npm start`
 
