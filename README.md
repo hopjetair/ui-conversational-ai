@@ -40,3 +40,19 @@ docker rm $(docker ps -aq)
 
 docker rmi $(docker images -q)
 
+### docker troubleshooting
+
+docker builder prune
+
+docker pull node:20-alpine
+
+# On macOS
+
+docker restart
+
+# Reinstall Docker
+
+If none of the above works, consider reinstalling Docker to ensure a clean setup.
+
+
+
