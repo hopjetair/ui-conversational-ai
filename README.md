@@ -46,11 +46,7 @@ docker builder prune
 
 docker pull node:20-alpine
 
-# On macOS
-
-docker restart
-
-# Reinstall Docker
+On macOS (docker restart)
 
 If none of the above works, consider reinstalling Docker to ensure a clean setup.
 
