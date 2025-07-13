@@ -5,6 +5,7 @@ import CloseIcon from '../../images/CloseIcon.svg';
 import { CHATBOT_MSG_TYPE, CHATBOT_WELCOME_MSG,CHATBOT_TITLE } from './Chatbot.const.tsx';
 //import styles from './Chatbot.less';
 import './Chatbot.css';
+import { dummyService } from '../../services/authService.ts';
 
 const ChatbotPanel = ({ clickCloseIcon }) => {
 
@@ -43,10 +44,15 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
         const payload = JSON.parse(`{"input": {"question": "${inputValue}"}}`);
         addToChatlog(inputValue,CHATBOT_MSG_TYPE.QUESTION);
         //addToChatlog('',CHATBOT_MSG_TYPE.LOADING);
-        const res = await new Promise(resolve => 
-            setTimeout(() => resolve({ content: 'This is a mock response from the chatbot API.' }), 1000) // 1-second delay
-          );
-        addToChatlog(res?.content,CHATBOT_MSG_TYPE.TEXT);
+        // const res = await new Promise(resolve => 
+        //     setTimeout(() => resolve({ content: 'This is a mock response from the chatbot API.' }), 1000) // 1-second delay
+        //   );
+        //   const res = await new Promise(resolve => 
+        //     setTimeout(() => resolve({ content: 'This is a mock response from the chatbot API.' }), 1000) // 1-second delay
+        //   );
+        const res = await dummyService()
+        //addToChatlog(res?.content,CHATBOT_MSG_TYPE.TEXT);
+        addToChatlog(res?.data?.title,CHATBOT_MSG_TYPE.TEXT);
     }
 
     return (

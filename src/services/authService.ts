@@ -1,8 +1,10 @@
-import api from "../api/axiosInstance";
+import api from "../api/axiosInstance.ts";
 
 export const healthCheckService = () => api.get(`/health`);
 
-export const dummyService = () => api.get(`/users`);
+export const dummyService = () => api.get(`/todos/1`);
+//export const dummyService = () => api.get(`/users`);
+//https://jsonplaceholder.typicode.com/todos/1
 
 export const getBoardingPassService = (booking_id: string) =>
   api.get(`/api/v1/boarding-pass/${booking_id}`);
