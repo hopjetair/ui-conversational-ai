@@ -35,6 +35,8 @@ Access your ui app at http://localhost:4001.
 ###   closing docker prpcesses
 
 docker stop $(docker ps -q)
+
 docker rm $(docker ps -aq)
+
 docker rmi $(docker images -q)
 
