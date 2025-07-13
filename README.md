@@ -15,3 +15,26 @@ Open [http://localhost:4001](http://localhost:4001) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console .
+
+
+###   Run using docker file
+
+docker build -t conversational-ai .
+
+docker run -p 4001:4001 conversational-ai
+
+Access your ui app at http://localhost:4001.
+
+###   Run using docker compose file file
+
+docker compose up --build
+
+Access your ui app at http://localhost:4001.
+
+
+###   closing docker prpcesses
+
+docker stop $(docker ps -q)
+docker rm $(docker ps -aq)
+docker rmi $(docker images -q)
+
