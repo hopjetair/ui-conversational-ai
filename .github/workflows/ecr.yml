@@ -1,0 +1,132 @@
+name: Build Test and Push React App to ECR
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch: # Allows manual execution
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: frontend-api  # Update this to your desired repository name
+  AWS_ROLE_ARN: arn:aws:iam::109038807292:role/GitHubActionsRole
+  LANGGRAPH_API_URL: http://langgraph-api.hopjetair.local:8065
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: read # Required to checkout code
+
+jobs:
+  ecr:
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Run build test
+        run: |
+          npm run build
+
+      # Uncomment and customize these steps if you have tests
+      # - name: Run unit tests
+      #   run: |
+      #     npm test -- --coverage --watchAll=false
+
+      # - name: Run linting
+      #   run: |
+      #     npm run lint
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY" >> $GITHUB_OUTPUT
+          echo "Built image: $ECR_REGISTRY/$ECR_REPOSITORY"
+
+      - name: Run and test Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          TEST_LANGGRAPH_API_URL: ${{ env.LANGGRAPH_API_URL }}
+        run: |
+          # Start the container in detached mode
+          docker run -d -p 8075:8075 \
+            -e LANGGRAPH_API_URL="$TEST_LANGGRAPH_API_URL" \
+            --name test-container $ECR_REGISTRY/$ECR_REPOSITORY
+
+          # Wait for container to start
+          sleep 30
+
+          # Show container logs for debugging
+          echo "Container logs:"
+          docker logs test-container
+
+          # Test if the application is responding
+          echo "Testing application health..."
+          
+          # Try to access the React app (it should serve static files)
+          for i in {1..10}; do
+            if curl -f -s http://localhost:8075 > /dev/null; then
+              echo "✅ Application is responding"
+              break
+            fi
+            echo "⏳ Attempt $i: Waiting for application to start..."
+            sleep 10
+          done
+
+          # Final test - this should succeed or fail the workflow
+          curl -f http://localhost:8075 || {
+            echo "❌ Application failed to respond"
+            docker logs test-container
+            exit 1
+          }
+
+          echo "✅ Docker image test completed successfully"
+
+          # Cleanup
+          docker stop test-container
+          docker rm test-container
+
+      - name: Push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY
+          echo "Pushed image to ECR: $ECR_REGISTRY/$ECR_REPOSITORY"
+
+      - name: Save image URI as artifact
+        run: |
+          echo "${{ steps.build-image.outputs.image }}" > image-uri.txt
+          echo "Saved image URI to image-uri.txt: $(cat image-uri.txt)"
+          ls -l image-uri.txt
+
+      - name: Upload image URI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-uri
+          path: image-uri.txt
+          retention-days: 7

@@ -11,7 +11,7 @@ This will install the dependencies.
 ### Step 2: run the command `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:4001](http://localhost:4001) to view it in your browser.
+Open [http://localhost:8075](http://localhost:8075) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console .
@@ -21,15 +21,15 @@ You may also see any lint errors in the console .
 
 docker build -t conversational-ai .
 
-docker run -p 4001:4001 conversational-ai
+docker run -p 8075:8075 conversational-ai
 
-Access your ui app at http://localhost:4001.
+Access your ui app at http://localhost:8075.
 
 ###   Run using docker compose file file
 
 docker compose up --build
 
-Access your ui app at http://localhost:4001.
+Access your ui app at http://localhost:8075.
 
 
 ###   closing docker prpcesses
