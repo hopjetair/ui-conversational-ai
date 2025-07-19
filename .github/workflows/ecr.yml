@@ -8,7 +8,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: frontend-api  # Update this to your desired repository name
+  ECR_REPOSITORY: frontend-api # Update this to your desired repository name
   AWS_ROLE_ARN: arn:aws:iam::109038807292:role/GitHubActionsRole
   LANGGRAPH_API_URL: http://langgraph-api.hopjetair.local:8065
 
@@ -36,6 +36,8 @@ jobs:
           npm ci
 
       - name: Run build test
+        env:
+          CI: false
         run: |
           npm run build
 
@@ -87,7 +89,7 @@ jobs:
 
           # Test if the application is responding
           echo "Testing application health..."
-          
+
           # Try to access the React app (it should serve static files)
           for i in {1..10}; do
             if curl -f -s http://localhost:8075 > /dev/null; then
