@@ -10,7 +10,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: frontend-api # Update this to your desired repository name
   AWS_ROLE_ARN: arn:aws:iam::109038807292:role/GitHubActionsRole
-  LANGGRAPH_API_URL: http://langgraph-api.hopjetair.local:8065
+  REACT_APP_LANGGRAPH_API_URL: http://langgraph-api.hopjetair.local:8065
 
 permissions:
   id-token: write # Required for OIDC
@@ -73,11 +73,11 @@ jobs:
       - name: Run and test Docker image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          TEST_LANGGRAPH_API_URL: ${{ env.LANGGRAPH_API_URL }}
+          TEST_REACT_APP_LANGGRAPH_API_URL: ${{ env.REACT_APP_LANGGRAPH_API_URL }}
         run: |
           # Start the container in detached mode
           docker run -d -p 8075:8075 \
-            -e LANGGRAPH_API_URL="$TEST_LANGGRAPH_API_URL" \
+            -e REACT_APP_LANGGRAPH_API_URL="$TEST_REACT_APP_LANGGRAPH_API_URL" \
             --name test-container $ECR_REGISTRY/$ECR_REPOSITORY
 
           # Wait for container to start
