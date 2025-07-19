@@ -2,7 +2,8 @@ import axios from "axios";
 
 const api = axios.create({
   //baseURL: "http://non-ai-api-alb-1441977773.ap-southeast-2.elb.amazonaws.com",
-  baseURL: "https://jsonplaceholder.typicode.com",
+  //baseURL: "https://jsonplaceholder.typicode.com",
+  baseURL: process.env.REACT_APP_LANGGRAPH_API_URL,
   timeout: 60000,
 });
 
