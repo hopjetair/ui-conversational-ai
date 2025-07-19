@@ -3,9 +3,10 @@ import ChatbotInput from './ChatbotInput.tsx';
 import ChatbotLog from './ChatbotLog.tsx';
 import CloseIcon from '../../images/CloseIcon.svg';
 import { CHATBOT_MSG_TYPE, CHATBOT_WELCOME_MSG,CHATBOT_TITLE } from './Chatbot.const.tsx';
-//import styles from './Chatbot.less';
 import './Chatbot.css';
-import { dummyService } from '../../services/authService.ts';
+//import { dummyService } from '../../services/authService.ts';
+import { getChatResponseFromLangraph } from '../../services/authService.ts';
+
 
 const ChatbotPanel = ({ clickCloseIcon }) => {
 
@@ -41,18 +42,16 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
 
     async function handleDataFromInput(inputValue) {
         setInputValue(inputValue);
-        const payload = JSON.parse(`{"input": {"question": "${inputValue}"}}`);
+
         addToChatlog(inputValue,CHATBOT_MSG_TYPE.QUESTION);
-        //addToChatlog('',CHATBOT_MSG_TYPE.LOADING);
-        // const res = await new Promise(resolve => 
-        //     setTimeout(() => resolve({ content: 'This is a mock response from the chatbot API.' }), 1000) // 1-second delay
-        //   );
-        //   const res = await new Promise(resolve => 
-        //     setTimeout(() => resolve({ content: 'This is a mock response from the chatbot API.' }), 1000) // 1-second delay
-        //   );
-        const res = await dummyService()
-        //addToChatlog(res?.content,CHATBOT_MSG_TYPE.TEXT);
-        addToChatlog(res?.data?.title,CHATBOT_MSG_TYPE.TEXT);
+
+        const payload = JSON.parse(`{"message":"${inputValue}"}`)
+        const res = await getChatResponseFromLangraph(payload)
+
+        const responseValue = res?.data?.messages[0]?.content || 'We did not get any response from the server.Try again later.';
+        
+        const responseMessage = responseValue.split(']').pop()?.trim();
+        addToChatlog(responseMessage,CHATBOT_MSG_TYPE.TEXT);
     }
 
     return (

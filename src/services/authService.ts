@@ -89,3 +89,6 @@ export const changeTripService = (trip_id: string, body: object) =>
 
 export const purchaseTripInsuranceService = (trip_id: string, body: object) =>
   api.post(`/api/v1/purchase-trip-insurance/${trip_id}`, body);
+
+export const getChatResponseFromLangraph = (body: object) =>
+  api.post(`/chat`, body);
