@@ -25,9 +25,9 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
     
     const addToChatlog = (inputValue,type) => {
         setChatlog(oldChatlog=>{
-            // if(type === CHATBOT_MSG_TYPE.TEXT){
-            //     oldChatlog.pop();
-            // };
+            if(type === CHATBOT_MSG_TYPE.TEXT){
+                oldChatlog.pop();
+            };
             const updatedChatlogValue = [...oldChatlog,{
             obj: [
                 {
@@ -51,7 +51,7 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
         setInputValue(inputValue);
 
         addToChatlog(inputValue,CHATBOT_MSG_TYPE.QUESTION);
-
+        addToChatlog('',CHATBOT_MSG_TYPE.LOADING);
         const payload = JSON.parse(`{"message":"${inputValue}","user_id":"abcxyz125"}`);
         const res = await getChatResponseFromLangraph(payload)
 
