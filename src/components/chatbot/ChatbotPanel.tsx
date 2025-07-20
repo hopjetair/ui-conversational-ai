@@ -52,7 +52,8 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
 
         addToChatlog(inputValue,CHATBOT_MSG_TYPE.QUESTION);
         addToChatlog('',CHATBOT_MSG_TYPE.LOADING);
-        const payload = JSON.parse(`{"message":"${inputValue}","user_id":"group9-ui"}`);
+        const userId = sessionStorage.getItem('uiUserId') || 'Hopjet-ui-user';
+        const payload = JSON.parse(`{"message":"${inputValue}","user_id":"${userId}"}`);
         const res = await getChatResponseFromLangraph(payload)
 
         const chatMessageArray = res?.data?.messages || [];

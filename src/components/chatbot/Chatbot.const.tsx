@@ -1,6 +1,6 @@
 
-export const CHATBOT_TITLE = 'Group 9 Conversational Assistant';
-export const CHATBOT_WELCOME_MSG = 'Welcome to Group 9 Conversational Assistant';
+export const CHATBOT_TITLE = 'Hopjet Airline Conversational Assistant';
+export const CHATBOT_WELCOME_MSG = 'Welcome to Hopjet Airline Conversational Assistant';
 export const CHATBOT_MSG_TYPE = {
     TEXT: 'text',
     LOADING: 'loading',
