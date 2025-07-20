@@ -5,6 +5,7 @@ import ChatbotIcon from './../../images/flyBot.png';
 export default function ChatbotContainer() {
     const intialShowChatbotWindow = sessionStorage.getItem('showChatbotWindow') === 'true';
     const [showChatbotWindow, setShowChatbotWindow] = useState(intialShowChatbotWindow);
+    const [showDetails, setShowDetails] = useState(true);
 
     const toggleChatbotWindow = () => {
         const toggleShowChatbotWindow = !showChatbotWindow;
