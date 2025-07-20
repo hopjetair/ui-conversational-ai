@@ -9,9 +9,6 @@ import {
   Stack,
   Text,
   Icon,
-  // useColorModeValue,
-  // ToggleButtonGroup,
-  // ToggleButton,
 } from "@chakra-ui/react";
 import { MdArrowForward, MdCalendarToday, MdPerson } from "react-icons/md";
 
@@ -22,8 +19,8 @@ const FlightBookingForm = ({ onSearch }) => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
   const handleDateChange = (e) => {
-    setSelectedDate(e.target.value); // Update the state with the new date
-    console.log(e.target.value); // Log the selected date
+    setSelectedDate(e.target.value);
+    console.log(e.target.value);
   };
 
   return (
