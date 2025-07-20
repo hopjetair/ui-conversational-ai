@@ -19,6 +19,12 @@ const FlightBookingForm = ({ onSearch }) => {
   const [tripType, setTripType] = useState("oneway");
   const [from, setFrom] = useState("New York");
   const [to, setTo] = useState("San Francisco");
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value); // Update the state with the new date
+    console.log(e.target.value); // Log the selected date
+  };
 
   return (
     <Box maxW="lg" mx="auto" mt={10} p={8} borderWidth={1} borderRadius="lg" boxShadow="md">
@@ -73,8 +79,8 @@ const FlightBookingForm = ({ onSearch }) => {
             <Icon as={MdCalendarToday} mr={2} />
             <Input
               type="date"
-              value={new Date().toISOString().split('T')[0]} 
-              onChange={(e) => console.log(e.target.value)}
+              value={selectedDate}
+              onChange={handleDateChange} 
             />
           </Flex>
         </Box>
