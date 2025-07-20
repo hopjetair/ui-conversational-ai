@@ -52,7 +52,7 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
 
         addToChatlog(inputValue,CHATBOT_MSG_TYPE.QUESTION);
         addToChatlog('',CHATBOT_MSG_TYPE.LOADING);
-        const payload = JSON.parse(`{"message":"${inputValue}","user_id":"abcxyz125"}`);
+        const payload = JSON.parse(`{"message":"${inputValue}","user_id":"group9-ui"}`);
         const res = await getChatResponseFromLangraph(payload)
 
         const responseValue = res?.data?.messages[1]?.content || 'We did not get any response from the server.Try again later.';
