@@ -55,7 +55,10 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
         const payload = JSON.parse(`{"message":"${inputValue}","user_id":"group9-ui"}`);
         const res = await getChatResponseFromLangraph(payload)
 
-        const responseValue = res?.data?.messages[1]?.content || 'We did not get any response from the server.Try again later.';
+        const chatMessageArray = res?.data?.messages || [];
+        const chatMessageArrayLength = chatMessageArray.length;
+
+        const responseValue = chatMessageArray[chatMessageArrayLength-1]?.content || 'We did not get any response from the server.Try again later.';
         // const responseValue = "Sure, I can help you with that! Could you please tell me your preferred departure date and return date if you have one?"
         const responseShowValue = showDetails ? responseValue : responseValue.split('Response:').pop()?.trim();;
         
