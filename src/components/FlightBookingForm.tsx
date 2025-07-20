@@ -49,19 +49,33 @@ const FlightBookingForm = ({ onSearch }) => {
       <Stack spacing={4}>
         <Box>
           <Text fontSize="sm" mb={1}>From</Text>
-          <Input placeholder="From" value={from} onChange={(e) => setFrom(e.target.value)} />
+          <Select placeholder="New York" value={from} onChange={(e) => setFrom(e.target.value)}>
+            <option value="chicago">Chicago</option>
+            <option value="madrid">Madrid</option>
+            <option value="newyork">Sydney</option>
+            <option value="london">London</option>
+          </Select>
         </Box>
 
         <Box>
           <Text fontSize="sm" mb={1}>To</Text>
-          <Input placeholder="To" value={to} onChange={(e) => setTo(e.target.value)} />
+          <Select placeholder="Bangalore" value={to} onChange={(e) => setTo(e.target.value)}>
+            <option value="chicago">San Francisco</option>
+            <option value="madrid">Hyderabad</option>
+            <option value="newyork">New Delhi</option>
+            <option value="london">Kolkata</option>
+          </Select>
         </Box>
 
         <Box>
           <Text fontSize="sm" mb={1}>Depart</Text>
           <Flex align="center">
             <Icon as={MdCalendarToday} mr={2} />
-            <Input type="date" />
+            <Input
+              type="date"
+              value={new Date().toISOString().split('T')[0]} 
+              onChange={(e) => console.log(e.target.value)}
+            />
           </Flex>
         </Box>
 
