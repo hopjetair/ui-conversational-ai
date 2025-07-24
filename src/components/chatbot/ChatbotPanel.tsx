@@ -61,12 +61,42 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
         const chatMessageArrayLength = chatMessageArray.length;
 
         const responseValue = chatMessageArray[chatMessageArrayLength-1]?.content || 'We did not get any response from the server.Try again later.';
-        // const responseValue = "Sure, I can help you with that! Could you please tell me your preferred departure date and return date if you have one?";
+        //  const responseValue = "<tool_response>Sure, I can help you with that! Could you please tell me your preferred departure date and return date if you have one?</tool_response>";
+
+        if (responseValue.includes('<tool_response>')) {
+            // Extract content inside <tool_response> tag
+            const toolResponseContent = responseValue.match(/<tool_response>(.*?)<\/tool_response>/)?.[1];
+        
+            if (toolResponseContent) {
+                // Prepare payload for the new API call
+                const toolPayload = JSON.parse(`{
+                    "message": {
+                        "role": "tool",
+                        "content": "${responseValue}"
+                    },
+                    "session_id": "${userId}"
+                }`);
+        
+                // Make another API call with the extracted content
+                const toolResponse = await getChatResponseFromLangraph(toolPayload);
+        
+                // Handle the response from the second API call
+                const toolChatMessageArray = toolResponse?.data?.messages || [];
+                const toolChatMessageArrayLength = toolChatMessageArray.length;
+        
+                const toolResponseValue = toolChatMessageArray[toolChatMessageArrayLength - 1]?.content || 'No response from the tool.';
+                // Add the tool response to the chat log
+                const toolresponseShowValue = showDetails ? toolResponseValue : toolResponseValue.split('Response:').pop()?.trim();
+        
+                const toolResponseMessage = toolresponseShowValue.split(']').pop()?.trim();
+                addToChatlog(toolResponseMessage, CHATBOT_MSG_TYPE.TEXT);
+            }
+        } else {
         
         const responseShowValue = showDetails ? responseValue : responseValue.split('Response:').pop()?.trim();
-        
         const responseMessage = responseShowValue.split(']').pop()?.trim();
         addToChatlog(responseMessage,CHATBOT_MSG_TYPE.TEXT);
+        }
     }
 
     return (
