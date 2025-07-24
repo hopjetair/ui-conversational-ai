@@ -53,15 +53,17 @@ const ChatbotPanel = ({ clickCloseIcon }) => {
         addToChatlog(inputValue,CHATBOT_MSG_TYPE.QUESTION);
         addToChatlog('',CHATBOT_MSG_TYPE.LOADING);
         const userId = sessionStorage.getItem('uiUserId') || 'Hopjet-ui-user';
-        const payload = JSON.parse(`{"message":"${inputValue}","user_id":"${userId}"}`);
+        //const payload = JSON.parse(`{"message":"${inputValue}","user_id":"${userId}"}`);
+        const payload = JSON.parse(`{"message":{"role":"user","content":"${inputValue}"},"session_id":"${userId}"}`);
         const res = await getChatResponseFromLangraph(payload)
 
         const chatMessageArray = res?.data?.messages || [];
         const chatMessageArrayLength = chatMessageArray.length;
 
         const responseValue = chatMessageArray[chatMessageArrayLength-1]?.content || 'We did not get any response from the server.Try again later.';
-        // const responseValue = "Sure, I can help you with that! Could you please tell me your preferred departure date and return date if you have one?"
-        const responseShowValue = showDetails ? responseValue : responseValue.split('Response:').pop()?.trim();;
+        // const responseValue = "Sure, I can help you with that! Could you please tell me your preferred departure date and return date if you have one?";
+        
+        const responseShowValue = showDetails ? responseValue : responseValue.split('Response:').pop()?.trim();
         
         const responseMessage = responseShowValue.split(']').pop()?.trim();
         addToChatlog(responseMessage,CHATBOT_MSG_TYPE.TEXT);
